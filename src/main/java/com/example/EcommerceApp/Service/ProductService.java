@@ -59,10 +59,8 @@ public class ProductService {
         }
     }
 
-    public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
-
+    public Page<Product> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending(): Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return ecommProductRepository.findAll(pageable);
     }

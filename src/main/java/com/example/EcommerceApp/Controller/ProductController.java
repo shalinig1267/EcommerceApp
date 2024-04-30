@@ -4,6 +4,7 @@ import com.example.EcommerceApp.DAO.ProductDO;
 import com.example.EcommerceApp.Model.Product;
 import com.example.EcommerceApp.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +39,15 @@ public class ProductController {
     @DeleteMapping("/product/{id}")
     public void delete(@PathVariable Long id){
         productService.deleteProduct(id);
+    }
+
+    @GetMapping("/product/page/{pageNo}")
+    public List<Product> findPaginated(@PathVariable int pageNo,
+                                       @RequestParam("sortField") String sortField,
+                                       @RequestParam("sortDirection") String sortDir){
+        int pageSize = 5;
+        Page<Product> page = productService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<Product> listOfProducts = page.getContent();
+        return listOfProducts;
     }
 }
